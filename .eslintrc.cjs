@@ -3,7 +3,7 @@ const config = {
   parser: '@typescript-eslint/parser',
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'next/core-web-vitals',
@@ -28,6 +28,8 @@ const config = {
       'error',
       { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
     ],
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
   },
   settings: {
     react: {

@@ -1,0 +1,28 @@
+pre > code {
+  counter-reset: line;
+  padding: unset !important;
+}
+
+pre > code > .line::before {
+  counter-increment: line;
+  content: counter(line);
+
+  /* Other styling */
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: gray;
+}
+
+[data-rehype-pretty-code-title] {
+  background-color: #27272a;
+  color: gray;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  padding: 0.5rem 1rem 0 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+[data-rehype-pretty-code-title] + pre {
+  border-radius: 0 0 0.5rem 0.5rem !important;
+}

@@ -1,6 +1,12 @@
+import { withContentlayer } from 'next-contentlayer';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
+  experimental: {
+    appDir: true,
+    mdxRs: true,
+  },
 };
 
-export default nextConfig;
+export default withContentlayer(nextConfig);

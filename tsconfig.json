@@ -15,8 +15,15 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
-    }
+      "~/*": ["./src/*"],
+      "contentlayer/generated": ["./.contentlayer/generated"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
@@ -24,7 +31,10 @@
     "**/*.tsx",
     ".eslintrc.cjs",
     "**/*.cjs",
-    "**/*.mjs"
+    "**/*.mjs",
+    ".next/types/**/*.ts",
+    "src/app/features/[feature]/repl/monaco.js",
+    ".contentlayer/generated"
   ],
   "exclude": ["node_modules"]
 }

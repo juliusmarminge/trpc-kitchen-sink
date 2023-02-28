@@ -1,0 +1,15 @@
+---
+title: useQuery
+---
+
+# useQuery
+
+Getting some nice formatted code here: `const x = 5;{:ts}`
+
+And here:
+
+```ts showLineNumbers title="post/page.tsx"
+import { trpc } from '~/utils/trpc';
+
+const post = await trpc.post.list.useQuery();
+```

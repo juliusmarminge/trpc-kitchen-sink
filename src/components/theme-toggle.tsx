@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Moon, SunMedium } from 'lucide-react';
 
@@ -35,7 +37,7 @@ export function ThemeToggle() {
     if (theme === 'dark') document.documentElement.classList.add('dark');
   };
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const theme = getStorageTheme();
     if (theme) onSelectTheme(theme);
   }, []);
