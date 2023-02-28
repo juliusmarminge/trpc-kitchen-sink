@@ -142,7 +142,8 @@ export default function IndexPage() {
 
             <iframe
               ref={iframeRef}
-              className="flex-1 rounded-md border border-zinc-700 bg-zinc-400"
+              className="flex-1 rounded-md border border-zinc-700"
+              style={{ backgroundColor: '#25292E' }}
             />
           </TabsContent>
           <TabsContent value="wizard" className="border-none"></TabsContent>
