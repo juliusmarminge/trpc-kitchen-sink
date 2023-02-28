@@ -13,5 +13,5 @@ export function middleware(req: Request) {
 }
 
 export const config = {
-  matcher: '/features/:feature*',
+  matcher: '/features/:path*',
 };
