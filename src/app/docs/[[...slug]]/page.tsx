@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { allDocs } from 'contentlayer/generated';
 
 import { MdxComponent } from '../use-mdx';
@@ -11,8 +11,7 @@ export async function generateStaticParams() {
   return slugs;
 }
 
-export default function DocsPage({ params }: { params: { slug?: string[] } }) {
-  if (!params.slug) redirect('/docs/introduction');
+export default function DocsPage({ params }: { params: { slug: string[] } }) {
   const slug = params.slug.join('/');
   const doc = allDocs.find((doc) => doc.slug === slug);
   if (!doc) notFound();
