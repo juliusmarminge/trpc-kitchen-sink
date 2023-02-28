@@ -11,7 +11,7 @@ type Navitem = {
 const items: Navitem[] = [
   {
     title: 'Documentation',
-    href: '/docs/main/introduction',
+    href: '/docs',
   },
   {
     title: 'Examples',
