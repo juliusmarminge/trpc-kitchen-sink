@@ -5,8 +5,6 @@ export function middleware(req: Request) {
   requestHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
   requestHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
 
-  console.log('running middleware', req.url);
-
   return NextResponse.next({
     headers: requestHeaders,
   });
