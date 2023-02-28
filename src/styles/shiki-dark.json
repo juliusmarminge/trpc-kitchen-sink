@@ -1,6 +1,6 @@
 {
   "inherit": false,
-  "name": "vs-dark",
+  "name": "shiki-dark",
   "colors": {
     "focusBorder": "#1f6feb",
     "foreground": "#c9d1d9",

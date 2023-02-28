@@ -34,10 +34,13 @@ export default makeSource({
         rehypePrettyCode,
         {
           getHighlighter: async () => {
-            const theme = await loadTheme(
+            const dark = await loadTheme(
               path.join(process.cwd(), './src/styles/shiki-dark.json'),
             );
-            return await getHighlighter({ theme });
+            // const light = await loadTheme(
+            //   path.join(process.cwd(), './src/styles/shiki-light.json'),
+            // );
+            return await getHighlighter({ theme: dark });
           },
           onVisitLine(node) {
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
@@ -49,8 +52,9 @@ export default makeSource({
           onVisitHighlightedLine(node) {
             node.properties.className.push('line--highlighted');
           },
-          onVisitHighlightedWord(node) {
-            node.properties.className = ['word--highlighted'];
+          onVisitHighlightedWord(node, id) {
+            node.properties.className = ['word'];
+            node.properties['data-word-id'] = id;
           },
         },
       ],

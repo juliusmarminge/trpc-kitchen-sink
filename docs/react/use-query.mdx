@@ -13,3 +13,27 @@ import { trpc } from '~/utils/trpc';
 
 const post = await trpc.post.list.useQuery();
 ```
+
+Even got highlighting:
+
+```ts showLineNumbers title="post/page.tsx" /publicProcedure/#r {8-10}
+import { z } from 'zod';
+
+import { publicProcedure, router } from './trpc';
+
+const appRouter = router({
+  // Create public procedure at path 'hello'
+  hello: publicProcedure.query(() => {
+    return {
+      greeting: 'hello world',
+    };
+  }),
+});
+```
+
+Just gotta fix the twoslash
+
+```ts twoslash
+const x = 5;
+//    ^?
+```

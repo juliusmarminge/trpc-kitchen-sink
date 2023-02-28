@@ -16,13 +16,30 @@ pre > code > .line::before {
 }
 
 [data-rehype-pretty-code-title] {
-  background-color: #27272a;
-  color: gray;
-  font-family: var(--font-sans);
-  font-weight: 700;
   padding: 0.5rem 1rem 0 1rem;
-  border-radius: 0.5rem 0.5rem 0 0;
+  @apply rounded-t-lg bg-zinc-100 font-cal text-zinc-900 dark:bg-zinc-800 dark:text-zinc-400;
 }
 [data-rehype-pretty-code-title] + pre {
-  border-radius: 0 0 0.5rem 0.5rem !important;
+  @apply rounded-t-none;
+}
+
+[data-rehype-pretty-code-fragment] .line--highlighted {
+  @apply rounded py-0.5 pr-1.5 dark:bg-zinc-700;
+}
+
+[data-rehype-pretty-code-fragment] .word {
+  @apply rounded px-1.5 py-0.5;
+}
+
+[data-word-id='b'] {
+  @apply bg-trpc-500/80;
+}
+[data-word-id='r'] {
+  @apply bg-pink-900/80;
+}
+[data-word-id='y'] {
+  @apply bg-amber-500/80;
+}
+[data-word-id='p'] {
+  @apply bg-indigo-900/80;
 }
