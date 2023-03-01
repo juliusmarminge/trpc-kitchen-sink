@@ -17,7 +17,7 @@ export async function generateMetadata({
   const ogUrl = `/docs/open-graph?${docsParams.toSearchString({
     title: doc?.title ?? 'tRPC | Not Found',
     description: doc?.description ?? '',
-    url: doc?.slug ?? 'trpc.io',
+    slug: doc?.slug ?? 'trpc.io',
   })}`;
 
   return {

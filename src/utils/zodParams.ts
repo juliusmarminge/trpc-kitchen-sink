@@ -56,6 +56,6 @@ export const docsParams = zodParams(
   z.object({
     title: z.string(),
     description: truncatedWordSchema({ maxCharacters: 215 }),
-    url: z.string(),
+    slug: z.string(),
   }),
 );

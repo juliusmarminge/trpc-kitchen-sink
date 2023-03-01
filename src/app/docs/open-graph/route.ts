@@ -21,10 +21,11 @@ export const GET = async (req: Request) => {
   }
 
   const props = parsed.data.input;
+  const { hostname } = new URL(req.url);
 
   return new ImageResponse(
     // FIXME: can't use tsx in route handlers for now
-    Image({ ...props }),
+    Image({ ...props, url: `${hostname}/${props.slug}` }),
     {
       width: 1200,
       height: 600,
