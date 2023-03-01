@@ -21,8 +21,13 @@ export async function generateMetadata({
   })}`;
 
   return {
-    title: `${params.slug}`,
+    title: `tRPC - ${doc?.title ?? 'Not Found'}`,
+    description: doc?.description,
     openGraph: {
+      images: ogUrl,
+    },
+    twitter: {
+      card: 'summary_large_image',
       images: ogUrl,
     },
   };
