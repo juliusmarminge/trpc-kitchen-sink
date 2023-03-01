@@ -86,11 +86,14 @@ export default function Editor(props: EditorProps) {
       // FIXME: Why doesn't recursion on root folder just work?
       // loadFiles('.');
 
-      loadFiles('node_modules');
-      loadFiles('server');
       loadFiles('client/src');
-      loadFiles('client/node_modules/@trpc');
+      loadFiles('client/node_modules/@types/react');
+      loadFiles('client/node_modules/@types/react-dom');
+      loadFiles('client/node_modules/@trpc/client');
+      loadFiles('client/node_modules/@trpc/react-query');
+      loadFiles('client/node_modules/@tanstack/react-query');
 
+      loadFiles('server');
       loadFiles('server/node_modules/zod');
       loadFiles('server/node_modules/@trpc/server');
       loadFiles('server/node_modules/@trpc/server/dist');
