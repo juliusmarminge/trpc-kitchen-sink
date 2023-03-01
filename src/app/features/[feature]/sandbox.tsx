@@ -8,6 +8,14 @@ import { ToggleGroup, ToggleGroupItem } from '~/components/ui/toggle-group';
 
 const Editor = lazy(() => import('./editor'));
 
+const SkeletonLoader = () => {
+  return (
+    <div className="flex h-full min-h-[600px] items-center justify-center">
+      <div className="text-center text-xl">Loading...</div>
+    </div>
+  );
+};
+
 export function Sandbox() {
   const wc = React.useRef<WebContainer>();
 
@@ -87,15 +95,7 @@ export function Sandbox() {
     setFile(name);
   }
 
-  const Loading = () => {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <div className="text-center text-xl">Loading...</div>
-      </div>
-    );
-  };
-
-  if (!wc.current || !iframeSrc) return <Loading />;
+  if (!wc.current || !iframeSrc) return <SkeletonLoader />;
 
   return (
     <div className="flex gap-4">
@@ -104,10 +104,17 @@ export function Sandbox() {
           <ToggleGroup
             type="single"
             defaultValue="server.ts"
+            size="sm"
+            className="w-full rounded-b-none"
             onValueChange={(val) => selectFile(val)}
           >
             {Array.from(files.keys()).map((key) => (
-              <ToggleGroupItem key={key} value={key}>
+              <ToggleGroupItem
+                key={key}
+                value={key}
+                className="h-6 flex-1"
+                variant="outline"
+              >
                 {key}
               </ToggleGroupItem>
             ))}
