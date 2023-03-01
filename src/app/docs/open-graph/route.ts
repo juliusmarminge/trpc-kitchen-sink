@@ -1,6 +1,6 @@
 import { ImageResponse } from '@vercel/og';
 import { getFont } from '~/utils/og-fonts';
-import { docsParams } from '~/utils/zodParams';
+import { docsParams } from '~/utils/zod-params';
 
 import { Image } from './image';
 

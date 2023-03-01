@@ -2,7 +2,7 @@ import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { allDocs } from 'contentlayer/generated';
 import { docSidebar } from '~/app/site.config';
-import { docsParams } from '~/utils/zodParams';
+import { docsParams } from '~/utils/zod-params';
 
 import { DocsSidebarNav } from '~/components/sidebar-nav';
 
