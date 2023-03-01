@@ -4,7 +4,9 @@ import {
   defineDocumentType,
   makeSource,
 } from 'contentlayer/source-files';
-import rehypePrettyCode from 'rehype-pretty-code';
+import rehypePrettyCode, {
+  type Options as PrettyCodeOptions,
+} from 'rehype-pretty-code';
 import { getHighlighter, loadTheme } from 'shiki';
 
 const Doc = defineDocumentType(() => ({
@@ -56,7 +58,7 @@ export default makeSource({
             node.properties.className = ['word'];
             node.properties['data-word-id'] = id;
           },
-        },
+        } satisfies Partial<PrettyCodeOptions>,
       ],
     ],
   },
