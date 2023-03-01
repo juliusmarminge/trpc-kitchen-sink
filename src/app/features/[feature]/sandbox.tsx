@@ -18,7 +18,6 @@ const SkeletonLoader = () => {
 
 export function Sandbox() {
   const wc = React.useRef<WebContainer>();
-
   const [iframeSrc, setIframeSrc] = React.useState<string | null>(null);
 
   React.useEffect(() => {
@@ -28,25 +27,38 @@ export function Sandbox() {
       );
       wc.current = instance;
 
-      const installProgress = await instance.spawn('pnpm', [
-        'create',
-        'next-app',
-        '.',
-        '-e',
-        'https://github.com/juliusmarminge/wc-test',
-      ]);
-      if (await installProgress.exit) console.log('Failed to scaffold app');
+      instance.fs
+        .readFile('package.json', 'utf-8')
+        .then((res) => {
+          console.log('App exists', JSON.parse(res).name);
+        })
+        .catch(async () => {
+          console.log("App doesn't exist. Creating...");
 
-      await parseFS();
+          const installProgress = await instance.spawn('pnpm', [
+            'create',
+            'next-app',
+            '.',
+            '-e',
+            'https://github.com/juliusmarminge/wc-test',
+          ]);
+          if (await installProgress.exit) console.log('Failed to scaffold app');
 
-      await instance.spawn('pnpm', ['-F', 'server', 'dev']);
-      await instance.spawn('pnpm', ['-F', 'client', 'dev']);
+          await parseFS();
 
-      instance.on('server-ready', (port, url) => {
-        // don't mount the server app
-        if (port == 3000) setIframeSrc(url);
-      });
+          await instance.spawn('pnpm', ['-F', 'server', 'dev']);
+          await instance.spawn('pnpm', ['-F', 'client', 'dev']);
+
+          instance.on('server-ready', (port, url) => {
+            // don't mount the server app
+            if (port == 3000) setIframeSrc(url);
+          });
+        });
     })();
+    // TODO: find some way to keep the wc alive when navigating away
+    // return () => {
+    //   wc.current?.teardown();
+    // };
   }, []);
 
   const [files, setFiles] = React.useState<
@@ -61,14 +73,23 @@ export function Sandbox() {
     const fs = wc.current?.fs;
     if (!fs) return;
 
-    const serverts = await fs.readFile('server/index.ts', 'utf-8');
-    const clientts = await fs.readFile('client/src/Greeting.tsx', 'utf-8');
-    const trpcts = await fs.readFile('client/src/utils/trpc.ts', 'utf-8');
+    const [serverts, maintsx, clientts, trpcts] = await Promise.all([
+      fs.readFile('server/index.ts', 'utf-8'),
+      fs.readFile('client/src/main.tsx', 'utf-8'),
+      fs.readFile('client/src/Greeting.tsx', 'utf-8'),
+      fs.readFile('client/src/utils/trpc.ts', 'utf-8'),
+    ]);
 
     setFiles((files) => {
       files.set('server.ts', {
         name: 'server/index.ts',
         content: serverts,
+        language: 'typescript',
+      });
+
+      files.set('main.tsx', {
+        name: 'client/src/main.tsx',
+        content: maintsx,
         language: 'typescript',
       });
 
