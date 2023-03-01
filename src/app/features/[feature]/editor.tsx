@@ -19,7 +19,7 @@ type EditorProps = {
   isDark: boolean;
 };
 
-export function Editor(props: EditorProps) {
+export default function Editor(props: EditorProps) {
   const editor = React.useRef<editor.IStandaloneCodeEditor>();
   const [theme, setTheme] = React.useState('github-dark');
 
@@ -90,6 +90,8 @@ export function Editor(props: EditorProps) {
   React.useEffect(() => {
     setTheme(props.isDark ? 'github-dark' : 'github-light');
   }, [props.isDark]);
+
+  if (typeof window === 'undefined') return null;
 
   return (
     <MonacoEditor

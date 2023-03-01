@@ -1,24 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect } from 'react';
-import lazy from 'next/dynamic';
+import { lazy, useEffect } from 'react';
 import { type WebContainer } from '@webcontainer/api';
 import { cn } from '~/utils/cn';
 
-import { Button } from '~/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { ToggleGroup, ToggleGroupItem } from '~/components/ui/toggle-group';
 
-const Editor = lazy(
-  async () => (await import('~/app/features/[feature]/editor')).Editor,
-  {
-    ssr: false,
-  },
-);
+const Editor = lazy(() => import('~/app/features/[feature]/editor'));
 
 export default function IndexPage() {
   const wc = React.useRef<WebContainer>();
   const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
+  const [iframeLoaded, setIframeLoaded] = React.useState(false);
 
   useEffect(() => {
     (async () => {
@@ -43,7 +38,10 @@ export default function IndexPage() {
 
       instance.on('server-ready', (port, url) => {
         console.log('Server running at ', url, ' on port ', port);
-        if (iframeRef.current && port == 3000) iframeRef.current.src = url;
+        if (iframeRef.current && port == 3000) {
+          iframeRef.current.src = url;
+          setIframeLoaded(true);
+        }
       });
     })();
   }, []);
@@ -93,6 +91,14 @@ export default function IndexPage() {
     setFile(name);
   }
 
+  const Loading = () => {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  };
+
   return (
     <section className="container grid items-center gap-6 pt-6 pb-8 md:py-10">
       <div className="overflow-hidden rounded-md border border-slate-200 shadow-xl shadow-zinc-800 dark:border-zinc-700">
@@ -109,40 +115,40 @@ export default function IndexPage() {
             className="flex min-h-[700px] gap-4 border-none"
           >
             <div className="h-full w-1/2">
-              <div className="flex">
-                {Array.from(files.keys()).map((key) => (
-                  <Button
-                    key={key}
-                    className={cn('flex-1')}
-                    disabled={key === file}
-                    size="sm"
-                    onClick={() => selectFile(key)}
+              {iframeLoaded ? (
+                <React.Suspense fallback={<Loading />}>
+                  <ToggleGroup
+                    type="single"
+                    defaultValue="server.ts"
+                    onValueChange={(val) => selectFile(val)}
                   >
-                    {key}
-                  </Button>
-                ))}
-              </div>
-
-              <React.Suspense
-                fallback={
-                  <div className="h-full min-h-[700px]">Loading editor...</div>
-                }
-              >
-                <Editor
-                  isDark={true}
-                  fs={wc.current?.fs}
-                  file={currentFile}
-                  onChange={async (e) => {
-                    if (currentFile)
-                      await wc.current?.fs.writeFile(currentFile.name, e);
-                  }}
-                />
-              </React.Suspense>
+                    {Array.from(files.keys()).map((key) => (
+                      <ToggleGroupItem key={key} value={key}>
+                        {key}
+                      </ToggleGroupItem>
+                    ))}
+                  </ToggleGroup>
+                  <Editor
+                    isDark={true}
+                    fs={wc.current?.fs}
+                    file={currentFile}
+                    onChange={async (e) => {
+                      if (currentFile)
+                        await wc.current?.fs.writeFile(currentFile.name, e);
+                    }}
+                  />
+                </React.Suspense>
+              ) : (
+                <Loading />
+              )}
             </div>
 
             <iframe
               ref={iframeRef}
-              className="flex-1 rounded-md border border-zinc-700"
+              className={cn(
+                'flex-1 rounded-md border border-zinc-700',
+                !iframeLoaded && 'hidden',
+              )}
               style={{ backgroundColor: '#25292E' }}
             />
           </TabsContent>

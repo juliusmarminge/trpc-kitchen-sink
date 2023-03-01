@@ -32,7 +32,7 @@ export function MdxComponent(props: { code: string }) {
           </code>
         ),
         pre: ({ children }) => (
-          <pre className="relative rounded-lg bg-zinc-100 p-4 font-mono text-sm font-semibold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-400">
+          <pre className="relative overflow-x-scroll rounded-lg bg-zinc-100 p-4 font-mono text-sm font-semibold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-400">
             {children}
           </pre>
         ),
