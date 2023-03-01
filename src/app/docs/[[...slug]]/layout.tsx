@@ -4,7 +4,11 @@ import { docSidebar } from '~/app/site.config';
 
 import { DocsSidebarNav } from '~/components/sidebar-nav';
 
-export async function generateMetadata({ params }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string[] };
+}): Promise<Metadata> {
   return {
     title: `${params.slug}`,
   };
