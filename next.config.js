@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: false,
   experimental: {
     appDir: true,
-    mdxRs: true,
+    // mdxRs: true,
     typedRoutes: true,
   },
 };

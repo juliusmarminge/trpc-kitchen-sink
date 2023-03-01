@@ -98,7 +98,7 @@ export default function Editor(props: EditorProps) {
       onChange={(e) => {
         if (e) props.onChange(e);
       }}
-      className="h-full min-h-[700px]"
+      className="h-full min-h-[600px]"
       options={{ minimap: { enabled: false }, tabSize: 2 }}
       onMount={(e) => (editor.current = e)}
       theme={theme}
