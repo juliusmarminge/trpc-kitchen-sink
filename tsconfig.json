@@ -34,7 +34,8 @@
     "**/*.mjs",
     ".next/types/**/*.ts",
     "src/app/features/[feature]/repl/monaco.js",
-    ".contentlayer/generated"
+    ".contentlayer/generated",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }
