@@ -1,10 +1,13 @@
-type NavItem = {
+import { type Route } from 'next';
+
+type NavItem<T extends string> = {
   title: string;
-  href?: string;
+  href?: Route<T>;
   label?: string;
 };
 
-export const navItems: NavItem[] = [
+// FIXME: Type these with staitc route types
+export const navItems: NavItem<any>[] = [
   {
     title: 'Documentation',
     href: '/docs',
@@ -14,12 +17,22 @@ export const navItems: NavItem[] = [
     href: '/features/forms',
   },
   {
+    title: 'Blog',
+    href: '/blog',
+  },
+  {
     title: 'Learn',
     label: 'Coming',
   },
 ];
 
-export const docSidebar = [
+type DocItem = {
+  title: string;
+  href: Route;
+};
+
+export const docSidebar: DocItem[] = [
   { title: 'Introduction', href: '/docs/introduction' },
   { title: 'useQuery', href: '/docs/react/use-query' },
+  { title: 'useMutation', href: '/docs/react/use-mutation' },
 ];

@@ -1,10 +1,11 @@
+import { type Route } from 'next';
 import Link from 'next/link';
 import { cn } from '~/utils/cn';
 
 export interface DocsSidebarNavProps {
   items: {
     title: string;
-    href: string;
+    href: Route;
     external?: boolean;
     disabled?: boolean;
     label?: string;

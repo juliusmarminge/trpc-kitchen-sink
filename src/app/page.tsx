@@ -16,17 +16,17 @@ export default function IndexPage() {
         </p>
       </div>
       <div className="flex gap-4">
-        <Link href="/forms" className={buttonVariants({ size: 'lg' })}>
+        <Link href="/features/forms" className={buttonVariants({ size: 'lg' })}>
           See the samples
         </Link>
-        <Link
+        <a
           href="https://github.com/trpc/examples-kitchen-sink"
           target="_blank"
           rel="noreferrer"
           className={buttonVariants({ variant: 'outline', size: 'lg' })}
         >
           View source on GitHub
-        </Link>
+        </a>
       </div>
       <div>{'<insert something great here>'}</div>
     </section>

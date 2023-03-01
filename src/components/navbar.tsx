@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Github, Twitter } from 'lucide-react';
 
 import { MainNav } from '~/components/desktop-nav';
@@ -14,7 +13,7 @@ export function SiteHeader() {
         <MobileNav />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
-            <Link
+            <a
               href="https://github.com/trpc/examples-kitchen-sink"
               target="_blank"
               rel="noreferrer"
@@ -28,8 +27,8 @@ export function SiteHeader() {
               >
                 <Github className="h-5 w-5" />
               </div>
-            </Link>
-            <Link
+            </a>
+            <a
               href="https://twitter.com/trpcio"
               target="_blank"
               rel="noreferrer"
@@ -43,7 +42,7 @@ export function SiteHeader() {
               >
                 <Twitter className="h-5 w-5 fill-current" />
               </div>
-            </Link>
+            </a>
             <ThemeToggle />
           </nav>
         </div>
