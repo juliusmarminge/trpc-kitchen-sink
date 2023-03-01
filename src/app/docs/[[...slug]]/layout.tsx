@@ -1,16 +1,30 @@
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { allDocs } from 'contentlayer/generated';
 import { docSidebar } from '~/app/site.config';
+import { docsParams } from '~/utils/zodParams';
 
 import { DocsSidebarNav } from '~/components/sidebar-nav';
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string[] };
+  params: { slug?: string[] };
 }): Promise<Metadata> {
+  const slug = params.slug?.join('/');
+  const doc = allDocs.find((doc) => doc.slug === slug);
+
+  const ogUrl = `/docs/open-graph?${docsParams.toSearchString({
+    title: doc?.title ?? 'tRPC | Not Found',
+    description: doc?.description ?? '',
+    url: doc?.slug ?? 'trpc.io',
+  })}`;
+
   return {
     title: `${params.slug}`,
+    openGraph: {
+      images: ogUrl,
+    },
   };
 }
 
