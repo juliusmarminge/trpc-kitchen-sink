@@ -71,7 +71,7 @@ export default function Editor(props: EditorProps) {
               `${dir}/${file.name}`,
               'utf-8',
             );
-            if (file.name.endsWith('.ts')) {
+            if (file.name.endsWith('.ts') || file.name.endsWith('.ts.map')) {
               console.log('adding extra lib', `${dir}/${file.name}`);
               monaco.languages.typescript.typescriptDefaults.addExtraLib(
                 content,
@@ -81,8 +81,15 @@ export default function Editor(props: EditorProps) {
           }
         }
       }
+      // FIXME: Why doesn't recursion on root folder just work?
+      loadFiles('server');
+      loadFiles('client/src');
+
       loadFiles('server/node_modules/zod');
-      loadFiles('server/node_modules/@trpc');
+      loadFiles('server/node_modules/@trpc/server');
+      loadFiles('server/node_modules/@trpc/server/dist');
+      loadFiles('server/node_modules/@trpc/server/dist/core');
+      loadFiles('server/node_modules/@trpc/server/dist/internals');
       loadFiles('server/node_modules/@types/node');
     });
   }, [props.fs]);
