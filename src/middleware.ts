@@ -9,7 +9,3 @@ export function middleware(req: Request) {
     headers: requestHeaders,
   });
 }
-
-export const config = {
-  matcher: '/features/:path*',
-};

@@ -15,6 +15,7 @@ const config = {
     project: './tsconfig.json',
   },
   rules: {
+    'next/no-html-link-for-pages': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     '@typescript-eslint/no-empty-interface': 'off',

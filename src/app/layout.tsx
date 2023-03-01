@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cn } from '~/utils/cn';
 
-import { SiteHeader } from '~/components/site-header';
+import { SiteHeader } from '~/components/navbar';
 
 const inter = Inter({
   subsets: ['latin'],
