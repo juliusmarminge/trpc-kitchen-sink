@@ -14,7 +14,7 @@ export function Breadcrumbs(props: { slug: string[] }) {
         /
       </span>
       <Link
-        href="/docs/"
+        href="/docs/introduction"
         className={cn(
           buttonVariants({ variant: 'ghost' }),
           'font-cal text-base capitalize',
