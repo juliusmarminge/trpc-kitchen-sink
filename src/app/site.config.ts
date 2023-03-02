@@ -10,15 +10,11 @@ type NavItem<T extends string> = {
 export const navItems: NavItem<any>[] = [
   {
     title: 'Documentation',
-    href: '/docs',
+    href: '/docs/introduction',
   },
   {
     title: 'Examples',
     href: '/features/forms',
-  },
-  {
-    title: 'Blog',
-    href: '/blog',
   },
   {
     title: 'Learn',

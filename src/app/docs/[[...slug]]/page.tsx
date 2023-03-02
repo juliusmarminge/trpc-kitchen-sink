@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { allDocs } from 'contentlayer/generated';
 
-import { MdxComponent } from '../use-mdx';
+import { Breadcrumbs } from './breadcrumbs';
+import { MdxComponent } from './mdx-components';
+import Pagination from './pagination';
 
 export async function generateStaticParams() {
   const slugs = allDocs.map((doc) => ({
@@ -16,5 +18,11 @@ export default function DocsPage({ params }: { params: { slug: string[] } }) {
   const doc = allDocs.find((doc) => doc.slug === slug);
   if (!doc) notFound();
 
-  return <MdxComponent code={doc.body.code} />;
+  return (
+    <div className="space-y-4">
+      <Breadcrumbs slug={params.slug} />
+      <MdxComponent code={doc.body.code} />
+      <Pagination pathname={`/docs/${slug}`} />
+    </div>
+  );
 }

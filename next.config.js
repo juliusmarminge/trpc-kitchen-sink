@@ -9,9 +9,13 @@ const nextConfig = {
     // mdxRs: true,
     typedRoutes: true,
   },
+  redirects: async () => [
+    { source: '/docs', destination: '/docs/introduction', permanent: true },
+    { source: '/docs/', destination: '/docs/introduction', permanent: true },
+  ],
   headers: async () => [
     {
-      source: '/features/:path*',
+      source: '/:path*',
       headers: [
         { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
         { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },

@@ -8,10 +8,10 @@ import { ToggleGroup, ToggleGroupItem } from '~/components/ui/toggle-group';
 
 const Editor = lazy(() => import('./editor'));
 
-const SkeletonLoader = () => {
+const SkeletonLoader = (props: { state: string }) => {
   return (
     <div className="flex h-full min-h-[600px] items-center justify-center">
-      <div className="text-center text-xl">Loading...</div>
+      <div className="text-center text-xl">{props.state}</div>
     </div>
   );
 };
@@ -19,6 +19,9 @@ const SkeletonLoader = () => {
 export function Sandbox() {
   const wc = React.useRef<WebContainer>();
   const [iframeSrc, setIframeSrc] = React.useState<string | null>(null);
+  const [loadingState, setLoadingState] = React.useState(
+    '[1/5]: Booting up...',
+  );
 
   React.useEffect(() => {
     (async () => {
@@ -33,8 +36,6 @@ export function Sandbox() {
           console.log('App exists', JSON.parse(res).name);
         })
         .catch(async () => {
-          console.log("App doesn't exist. Creating...");
-
           const installProgress = await instance.spawn('pnpm', [
             'create',
             'next-app',
@@ -42,14 +43,33 @@ export function Sandbox() {
             '-e',
             'https://github.com/juliusmarminge/wc-test',
           ]);
-          if (await installProgress.exit) console.log('Failed to scaffold app');
+          installProgress.output.pipeTo(
+            new WritableStream({
+              write: (chunk) => {
+                console.log('CHUNK: ', chunk);
+                if (chunk.includes('Downloading files')) {
+                  setLoadingState('[2/5]: Downloading files...');
+                } else if (chunk.includes('Installing packages')) {
+                  setLoadingState('[3/5]: Installing dependencies...');
+                }
+              },
+            }),
+          );
+          if (await installProgress.exit) {
+            console.log('Installation failed');
+            setLoadingState(
+              'Installation failed. Please refresh the page to try again.',
+            );
+          }
 
-          await parseFS();
+          setLoadingState('[4/5]: Starting application...');
+          parseFS();
 
           await instance.spawn('pnpm', ['-F', 'server', 'dev']);
           await instance.spawn('pnpm', ['-F', 'client', 'dev']);
 
           instance.on('server-ready', (port, url) => {
+            setLoadingState('[5/5]: Ready!');
             // don't mount the server app
             if (port == 3000) setIframeSrc(url);
           });
@@ -116,7 +136,7 @@ export function Sandbox() {
     setFile(name);
   }
 
-  if (!wc.current || !iframeSrc) return <SkeletonLoader />;
+  if (!wc.current || !iframeSrc) return <SkeletonLoader state={loadingState} />;
 
   return (
     <div className="flex gap-4">
@@ -124,7 +144,7 @@ export function Sandbox() {
         <div className="flex flex-col items-center">
           <ToggleGroup
             type="single"
-            defaultValue="server.ts"
+            defaultValue={file}
             size="sm"
             className="w-full rounded-b-none"
             onValueChange={(val) => selectFile(val)}

@@ -37,6 +37,7 @@ export default function DocsLayout(props: {
   children: React.ReactNode;
   params: { slug?: string[] };
 }) {
+  // This redirect should not occur since we redirect in next.config
   if (!props.params.slug) redirect('/docs/introduction');
 
   return (
