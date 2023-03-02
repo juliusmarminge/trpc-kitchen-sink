@@ -27,8 +27,11 @@ type DocItem = {
   href: Route;
 };
 
-export const docSidebar: DocItem[] = [
-  { title: 'Introduction', href: '/docs/introduction' },
-  { title: 'useQuery', href: '/docs/react/use-query' },
-  { title: 'useMutation', href: '/docs/react/use-mutation' },
-];
+export const docSidebar: Record<string, DocItem[]> = {
+  Introduction: [{ title: 'Introduction', href: '/docs/introduction' }],
+  React: [
+    { title: 'Usage with React', href: '/docs/react' },
+    { title: 'useQuery', href: '/docs/react/use-query' },
+    { title: 'useMutation', href: '/docs/react/use-mutation' },
+  ],
+};

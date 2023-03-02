@@ -26,6 +26,11 @@ export function MdxComponent(props: { code: string }) {
         p: ({ children }) => (
           <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>
         ),
+        a: ({ children, href }) => (
+          <a className="text-trpc-400" href={href}>
+            {children}
+          </a>
+        ),
         code: ({ children }) => (
           <code className="relative rounded-lg bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-400">
             {children}

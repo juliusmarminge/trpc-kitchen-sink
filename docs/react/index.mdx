@@ -5,8 +5,58 @@ description: How to use tRPC with React
 
 # Usage with React
 
-## Installation
+To use tRPC with React, you can use the official `@trpc/react-query` package. It's a thin wrapper around [`@tanstack/react-query`](https://react-query.tanstack.com/) that provides type safety as well as the same proxy based API as the vanilla client.
+
+## 1. Installation
+
+Install the `@trpc/react-query` and `@tanstack/react-query` packages.
 
 ```bash
 npm install @trpc/react-query @tanstack/react-query
 ```
+
+## 2. Create the React bindings for your tRPC client
+
+Create a file called `utils/trpc.ts` and add the following code:
+
+```js {22} title="utils/trpc.ts"
+import { createTRPCReact } from '@trpc/react-query';
+import { type AppRouter } from '~/server/router';
+
+export const trpc = createTRPCReact<AppRouter>();
+```
+
+## 3. Wrap your app in `trpc` and `QueryClient` context providers
+
+Finally, we'll wrap the rest of our application, `<YourApp />{:js}`, in the `trpc` and `QueryClient` context providers.
+
+```js title="main.tsx" /<YourApp />/#b
+import * as React from 'react';
+import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { httpBatchLink } from '@trpc/client';
+
+import { trpc } from './utils/trpc';
+
+function App() {
+  const [queryClient] = useState(() => new QueryClient());
+  const [trpcClient] = useState(() =>
+    trpc.createClient({
+      links: [
+        httpBatchLink({
+          url: 'http://localhost:2022', // your server URL
+        }),
+      ],
+    }),
+  );
+  return (
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <YourApp />
+      </QueryClientProvider>
+    </trpc.Provider>
+  );
+}
+```
+
+That's it! [Try it out for yourself!](/features/forms)

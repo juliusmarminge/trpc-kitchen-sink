@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { docSidebar, navItems } from '~/app/site.config';
+import { cn } from '~/utils/cn';
 
 import { TRPCIcon } from './icons';
 import { Button } from './ui/button';
@@ -50,8 +51,29 @@ export function MobileNav() {
           )}
         </div>
         <div className="my-4 h-1 w-full bg-zinc-700" />
-        <div className="space-y-2">
-          {docSidebar.map((item) => (
+        <div className="space-y-4">
+          {Object.entries(docSidebar).map(([title, items]) => (
+            <div key={title}>
+              <h3 className="mb-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                {title}
+              </h3>
+              {items.map((item, index) => (
+                <SheetClose asChild key={item.href}>
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className={cn(
+                      'group flex w-full items-center rounded-l-md py-1.5 px-2 hover:bg-zinc-50 dark:hover:bg-zinc-800',
+                    )}
+                  >
+                    {item.title}
+                  </Link>
+                </SheetClose>
+              ))}
+            </div>
+          ))}
+
+          {/* {docSidebar.map((item) => (
             <SheetClose asChild key={item.href}>
               <Link
                 href={item.href}
@@ -60,7 +82,7 @@ export function MobileNav() {
                 {item.title}
               </Link>
             </SheetClose>
-          ))}
+          ))} */}
         </div>
       </SheetContent>
     </Sheet>
