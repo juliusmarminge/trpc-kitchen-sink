@@ -49,6 +49,7 @@ export default function Editor(props: EditorProps) {
       monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
         compilerOptions,
       );
+      monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
     });
   }, []);
 

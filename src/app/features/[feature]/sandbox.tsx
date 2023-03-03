@@ -20,7 +20,7 @@ export function Sandbox() {
   const wc = React.useRef<WebContainer>();
   const [iframeSrc, setIframeSrc] = React.useState<string | null>(null);
   const [loadingState, setLoadingState] = React.useState(
-    '[1/6]: Booting up...',
+    '[1/5]: Booting up...',
   );
 
   React.useEffect(() => {
@@ -34,23 +34,31 @@ export function Sandbox() {
         .readFile('package.json', 'utf-8')
         .then((res) => {
           console.log('App exists', JSON.parse(res).name);
+          setLoadingState(
+            "App exists, let's start it up...Reload required for now...",
+          );
+          // TODO: Handle this case cause
         })
         .catch(async () => {
-          setLoadingState('[2/6]: Initializing project...');
-          const installProgress = await instance.spawn('npx', [
-            'create-next-app',
+          setLoadingState('[2/5]: Initializing project...');
+          // init tool launches faster using pnpm,
+          // but the symlinks it creates seems to not play nice with Monaco
+          // so we start the initer using pnpm and then install deps using npm
+          const installProgress = await instance.spawn('pnpm', [
+            'create',
+            'next-app',
             '.',
             '-e',
             'https://github.com/juliusmarminge/wc-test',
+            '--use-npm',
           ]);
           installProgress.output.pipeTo(
             new WritableStream({
               write: (chunk) => {
-                console.log('CHUNK: ', chunk);
                 if (chunk.includes('Downloading files')) {
-                  setLoadingState('[3/6]: Downloading files...');
+                  setLoadingState('[3/5]: Downloading files...');
                 } else if (chunk.includes('Installing packages')) {
-                  setLoadingState('[4/6]: Installing dependencies...');
+                  setLoadingState('[4/5]: Installing dependencies...');
                 }
               },
             }),
@@ -62,14 +70,17 @@ export function Sandbox() {
             );
           }
 
-          setLoadingState('[5/6]: Starting application...');
+          setLoadingState('[5/5]: Starting application...');
           parseFS();
 
-          await instance.spawn('pnpm', ['-F', 'server', 'dev']);
-          await instance.spawn('pnpm', ['-F', 'client', 'dev']);
+          await Promise.all([
+            instance.spawn('pnpm', ['-F', 'server', 'dev']),
+            instance.spawn('pnpm', ['-F', 'client', 'dev']),
+          ]);
+          // await instance.spawn('pnpm', ['-F', 'server', 'dev']);
+          // await instance.spawn('pnpm', ['-F', 'client', 'dev']);
 
           instance.on('server-ready', (port, url) => {
-            setLoadingState('[6/6]: Ready!');
             // don't mount the server app
             if (port == 3000) setIframeSrc(url);
           });
