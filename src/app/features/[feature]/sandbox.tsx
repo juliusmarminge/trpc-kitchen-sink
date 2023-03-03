@@ -139,7 +139,7 @@ export function Sandbox() {
       return new Map(files);
     });
 
-    setFile('server.ts');
+    setFile('client.tsx');
   }
 
   async function selectFile(name: string) {
