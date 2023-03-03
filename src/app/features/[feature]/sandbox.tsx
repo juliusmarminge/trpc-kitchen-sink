@@ -20,7 +20,7 @@ export function Sandbox() {
   const wc = React.useRef<WebContainer>();
   const [iframeSrc, setIframeSrc] = React.useState<string | null>(null);
   const [loadingState, setLoadingState] = React.useState(
-    '[1/5]: Booting up...',
+    '[1/6]: Booting up...',
   );
 
   React.useEffect(() => {
@@ -36,9 +36,9 @@ export function Sandbox() {
           console.log('App exists', JSON.parse(res).name);
         })
         .catch(async () => {
-          const installProgress = await instance.spawn('pnpm', [
-            'create',
-            'next-app',
+          setLoadingState('[2/6]: Initializing project...');
+          const installProgress = await instance.spawn('npx', [
+            'create-next-app',
             '.',
             '-e',
             'https://github.com/juliusmarminge/wc-test',
@@ -48,9 +48,9 @@ export function Sandbox() {
               write: (chunk) => {
                 console.log('CHUNK: ', chunk);
                 if (chunk.includes('Downloading files')) {
-                  setLoadingState('[2/5]: Downloading files...');
+                  setLoadingState('[3/6]: Downloading files...');
                 } else if (chunk.includes('Installing packages')) {
-                  setLoadingState('[3/5]: Installing dependencies...');
+                  setLoadingState('[4/6]: Installing dependencies...');
                 }
               },
             }),
@@ -62,14 +62,14 @@ export function Sandbox() {
             );
           }
 
-          setLoadingState('[4/5]: Starting application...');
+          setLoadingState('[5/6]: Starting application...');
           parseFS();
 
           await instance.spawn('pnpm', ['-F', 'server', 'dev']);
           await instance.spawn('pnpm', ['-F', 'client', 'dev']);
 
           instance.on('server-ready', (port, url) => {
-            setLoadingState('[5/5]: Ready!');
+            setLoadingState('[6/6]: Ready!');
             // don't mount the server app
             if (port == 3000) setIframeSrc(url);
           });

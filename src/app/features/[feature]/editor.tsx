@@ -39,6 +39,7 @@ export default function Editor(props: EditorProps) {
         target: languages.typescript.ScriptTarget.ESNext,
         module: languages.typescript.ModuleKind.ESNext,
         moduleResolution: languages.typescript.ModuleResolutionKind.NodeJs,
+        allowSyntheticDefaultImports: true,
         jsx: languages.typescript.JsxEmit.Preserve,
         jsxImportSource: 'react',
         typeRoots: ['node_modules/@types'],
@@ -85,21 +86,21 @@ export default function Editor(props: EditorProps) {
       }
       // FIXME: Why doesn't recursion on root folder just work?
       // loadFiles('.');
-
-      loadFiles('client/src');
-      loadFiles('client/node_modules/@types/react');
-      loadFiles('client/node_modules/@types/react-dom');
-      loadFiles('client/node_modules/@trpc/client');
-      loadFiles('client/node_modules/@trpc/react-query');
-      loadFiles('client/node_modules/@tanstack/react-query');
-
+      loadFiles('client');
       loadFiles('server');
-      loadFiles('server/node_modules/zod');
-      loadFiles('server/node_modules/@trpc/server');
-      loadFiles('server/node_modules/@trpc/server/dist');
-      loadFiles('server/node_modules/@trpc/server/dist/core');
-      loadFiles('server/node_modules/@trpc/server/dist/internals');
-      loadFiles('server/node_modules/@types/node');
+
+      loadFiles('node_modules/@trpc/client');
+      loadFiles('node_modules/@trpc/react-query');
+      loadFiles('node_modules/@trpc/server');
+
+      loadFiles('node_modules/@tanstack/query-core');
+      loadFiles('node_modules/@tanstack/react-query');
+      loadFiles('node_modules/cors');
+      loadFiles('node_modules/zod');
+
+      loadFiles('node_modules/@types/cors');
+      loadFiles('node_modules/@types/react');
+      loadFiles('node_modules/@types/react-dom');
     });
   }, [props.fs]);
 
